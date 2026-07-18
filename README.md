@@ -1,10 +1,6 @@
 # BEEP
-Broadcast Emergency Encoding Parser
-
-System Synopsis
-
-What BEEP Does
-
+Broadcast Emergency Encoding Parser System Synopsis
+# What BEEP Does
 BEEP is a real-time emergency pager monitoring system that receives, decodes, and displays Victorian emergency services pager traffic on a live web dashboard accessible from any device on your local network.
 # Hardware
 Component	Details
