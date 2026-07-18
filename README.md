@@ -3,14 +3,14 @@ Broadcast Emergency Encoding Parser
 System Synopsis
 What BEEP Does
 BEEP is a real-time emergency pager monitoring system that receives, decodes, and displays Victorian emergency services pager traffic on a live web dashboard accessible from any device on your local network.
-Hardware
+# Hardware
 Component	Details
 Raspberry Pi 400	Main computer — runs all software, hosts the web dashboard
 RTL-SDR Dongle	Realtek RTL2838UHIDIR USB software defined radio receiver
 Antenna	Connected to the RTL-SDR dongle to receive RF signal
 SD Card	Stores the Raspberry Pi OS and all software
 Local Network	WiFi or ethernet connecting the Pi to other viewing devices
-Software Stack
+# Software Stack
 Software	Purpose
 Raspberry Pi OS Lite (32-bit, Bookworm)	Operating system — headless, no desktop required
 rtl-sdr	Linux driver and tools for the RTL-SDR dongle
@@ -19,24 +19,36 @@ multimon-ng	Decodes the raw audio stream and extracts POCSAG512 pager messages
 Python 3	Runs the main decoder and web server application
 Flask	Python web framework that serves the live dashboard
 systemd	Linux service manager that auto-starts BEEP on every boot
-Radio Configuration
+# Radio Configuration
+
 Setting	Value
+
 Frequency	148.9125 MHz
+
 Protocol	POCSAG512 (512 baud)
+
 Gain	36.4 dB
+
 Squelch	0 (no squelch)
+
 Sample rate	22050 Hz
 ________________________________________
-What the Python Code Does
+# What the Python Code Does
 The pager_decoder.py file does everything in one script — it has four main sections:
 ________________________________________
-1. Configuration and Data
+# 1. Configuration and Data
 At the top of the file all settings are defined — frequency, gain, squelch, protocol — along with three large lookup dictionaries built from your capcodes spreadsheet:
+
 •	USERS — maps every capcode to its unit name, group, district, mnemonic and agency (721 entries, stored both with and without leading zeros for reliable lookup)
+
 •	MNEMONIC_TO_UNIT — maps brigade/station mnemonics to unit names for decoding responding units in message text (407 entries)
+
 •	FRV_STATION_TO_NAME — maps FRV station numbers to station names, groups and districts (86 entries)
+
 •	BLACKLIST — capcodes to silently ignore completely (16 entries)
+
 •	DISTRICTS and GROUPS — sorted lists for the filter dropdowns (34 districts, 169 groups)
+
 Also stored is the BEEP logo as a base64 encoded string so it can be embedded directly in the web page without needing a separate file.
 ________________________________________
 2. Decoder Thread
